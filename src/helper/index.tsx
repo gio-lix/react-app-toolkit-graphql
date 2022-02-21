@@ -1,5 +1,5 @@
+import {DataType, DefaultSizeType, PriceType} from "../../type";
 
-import {DataType, DefaultSizeType, PriceType} from "../type";
 
 export const takeDefaultPrice = (data: PriceType[]) => {
     return data?.filter((e: PriceType) => e.currency.label.toUpperCase().includes("USD"))

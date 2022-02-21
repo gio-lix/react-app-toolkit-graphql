@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { graphqlBaseQuery } from "./baseQuery";
-import {getProductsCategoriesBySlug, getToDosDocument} from "./queries";
-import {gql} from "graphql-request";
+import { graphqlBaseQuery } from "../baseQuery";
+import {getCategories, getCurrency, getProductsCategoriesBySlug, getProductDetailsById} from "../queries";
 
 
 
@@ -10,23 +9,40 @@ export const productsApi = createApi({
     reducerPath: "productsApi",
     baseQuery: graphqlBaseQuery({ baseUrl: "http://localhost:4000" }),
     endpoints: (builder) => ({
-        getProductsDos: builder.query<any, void>({
+        getCurrencyDos: builder.query<any, void>({
             query: () => ({
-                document: getToDosDocument,
+                document: getCurrency,
             }),
         }),
-        getCategoriesDos: builder.query({
-            query: ({title}) => ({
+        getCategoriesDos: builder.query<any, void>({
+            query: () => ({
+                document: getCategories,
+            }),
+        }),
+        getCategoriesBySlugDos: builder.query({
+            query: (title) => ({
                 document: getProductsCategoriesBySlug,
-                variables: {
-                    title,
-                },
+                variables:{
+                    "input": {
+                        "title": title
+                    }
+                }
+            }),
+        }),
+        getGetProductsByIdDos: builder.query({
+            query: (id) => ({
+                document: getProductDetailsById,
+                variables:{
+                    "productId": id
+                }
             }),
         }),
     }),
 });
 
 export const {
-    useGetProductsDosQuery,
-    useGetCategoriesDosQuery
+    useGetCurrencyDosQuery,
+    useGetCategoriesDosQuery,
+    useGetCategoriesBySlugDosQuery,
+    useGetGetProductsByIdDosQuery
 } = productsApi;

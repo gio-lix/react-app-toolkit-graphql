@@ -1,4 +1,5 @@
-import {FC} from "react"
+import React, {FC} from "react"
+import Header from "./Header";
 
 interface ILayout {
 
@@ -6,20 +7,12 @@ interface ILayout {
 
 const Layout: FC<ILayout> = ({children}) => {
     return (
-        <>
-            <header>
-                <nav>
-                    <ul>
-                        <li>
-                            Home
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+        <div  className='max-w-[1440px] max-h-[1513px] mx-auto px-28'>
+            <Header />
             <div>
                 {children}
             </div>
-        </>
+        </div>
     )
 }
 export default Layout

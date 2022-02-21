@@ -1,13 +1,22 @@
+// @ts-ignore
+import DOMPurify from 'dompurify';
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useGetGetProductsByIdDosQuery} from "../services/queryApi/products";
 import {DefaultSizeType, IdNameType} from "../../type";
 import {addOrderList, takeDefaultPrice} from "../helper";
+import {useDispatch, useSelector} from "react-redux";
+import {addToCart, selectOrderSlice} from "../services/slices/orderSlice";
 
 
-const Products = () => {
+const ProductDetails = () => {
+
+
     const {productId} = useParams()
     const {data, isLoading, error} = useGetGetProductsByIdDosQuery(productId)
+    const dispatch = useDispatch()
+    const {cartItems} = useSelector(selectOrderSlice)
+
 
     const [imageGallery, setImageGallery] = useState<number>(0);
     const [isMounted, setMount] = useState(false);
@@ -45,7 +54,7 @@ const Products = () => {
 
     const handleClickCart = () => {
         if (!data?.product?.inStock) return
-        // dispatch({type: 'ADD_ORDER', payload: orderCart })
+       dispatch(addToCart(orderCart))
     }
 
     return (
@@ -96,8 +105,7 @@ const Products = () => {
 
                                                         if (el.name === 'Color') {
                                                             return (
-                                                                <button onClick={() => handler(el.name, e?.id)} key={i}
-                                                                        style={{backgroundColor: e.value}}
+                                                                <button onClick={() => handler(el.name, e?.id)} key={i}   style={{backgroundColor: e.value}}
                                                                         className={`${(index >= 0) && 'scale-125'}   w-[63px] h-[45px] mr-[12px] flex justify-center items-center border border-bor_gray`}>
                                                                 </button>
                                                             )
@@ -129,7 +137,7 @@ const Products = () => {
                             </button>
                             {isMounted ? (
                                 <article className='prose prose-neutral'>
-                                    {/*<div dangerouslySetInnerHTML={{ __html: sanitize( data?.product?.description ?? '' ) }}/>*/}
+                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( data?.product?.description ) }}/>
                                 </article>
                             ) : null}
                         </div>
@@ -139,4 +147,4 @@ const Products = () => {
     );
 };
 
-export default Products;
+export default ProductDetails;
