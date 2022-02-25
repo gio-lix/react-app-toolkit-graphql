@@ -1,13 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { graphqlBaseQuery } from "../baseQuery";
 import {getCategories, getCurrency, getProductsCategoriesBySlug, getProductDetailsById} from "../queries";
-
-
+import {PUBLIC_API} from "../../config";
 
 
 export const productsApi = createApi({
     reducerPath: "productsApi",
-    baseQuery: graphqlBaseQuery({ baseUrl: "http://localhost:4000" }),
+    baseQuery: graphqlBaseQuery({ baseUrl: PUBLIC_API}),
     endpoints: (builder) => ({
         getCurrencyDos: builder.query<any, void>({
             query: () => ({

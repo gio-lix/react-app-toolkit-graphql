@@ -1,0 +1,1 @@
+export const PUBLIC_API = process.env.PUBLIC_URL || `http://localhost:4000`
