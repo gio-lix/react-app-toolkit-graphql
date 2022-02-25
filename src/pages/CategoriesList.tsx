@@ -16,11 +16,6 @@ const CategoriesList = () => {
     let navigator = useNavigate()
 
 
-
-
-
-
-
     const handleClickAddProduct = (items:any) => {
         if (!items?.inStock)   return
 
